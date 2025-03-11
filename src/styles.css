@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root{
+ --black-purple : #371b7d;
+ --injection-purple : #600791;
+ --cool-purple : #b033f4;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html{
+    height: 100%;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
