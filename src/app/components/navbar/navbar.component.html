@@ -4,47 +4,74 @@
         <!--début Logo-->
         <div class="container-fluid d-flex align-self-center">
             <div>
-                <img src="" alt="">
-                <p class="fs-1 fw-bold">P.SAVON</p>
+                <p class="fs-1 fw-bold nav-title">P.SAVON</p>
             </div>
        <!--fin Logo-->
 
         <!--Début Elements-->
-        <div class="justify-content-end gap-5 d-none d-md-flex">
+        <div class="justify-content-end gap-5 d-none d-md-flex align-items-center">
             <!--Nav elements - accueil , calculatrice et ingrédients-->
-        
-                <ul class="list-unstyled d-flex gap-5">
+            <ul class="list-unstyled d-flex gap-5">
                     <li class="nav-item">
-                        <a href="/accueil" class="nav-link">Accueil</a>
+                        <a href="/" class="nav-link">Accueil</a>
                     </li>
     
                     <li class="nav-item">
-                        <a href="/calculatrice" class="nav-link">Calculatrice</a>
+                        <a href="/calculateur" class="nav-link">Calculateur</a>
                     </li>
-    
+
+
                     <li class="nav-item">
-                        <a href="/calculatrice" class="nav-link">Ingrédients</a>
+                        <a href="/recettes" class="nav-link">Mes recettes</a>
                     </li>
-                </ul>
+           </ul>
 
             <!--Nav buttons - s'inscrire et se connecter-->
             <ul class="d-flex gap-3 list-unstyled">
-                <li class="nav-item bg-primary px-3 py-2 rounded text-white fw-bold">
-                    <a href="/accueil" class="nav-link">connexion</a>
+                <li class="btn-purple nav-item  px-3 py-2 rounded text-white fw-bold">
+                    <a href="/connexion" class="nav-link">connexion</a>
                 </li>
 
-                <li class="nav-item bg-primary px-3 py-2 rounded text-white fw-bold">
-                    <a href="/accueil" class="nav-link">S'inscire</a>
+                <li class="btn-purple nav-item  px-3 py-2 rounded text-white fw-bold">
+                    <a href="/inscription" class="nav-link">S'inscire</a>
                 </li>
             </ul>
          
         </div>
-         <!--FIn Elements-->
+         <!--Fin Elements-->
 
          <!-- début Side navbar-->
-          <div (mouseover)="handleDesign()" class="d-md-none d-block">
-            <svg class="d-block" id="bars-id" xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#371b7d" d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L96 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
-            <svg class="d-none" id="savon-id"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#371b7d" d="M208 96a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM320 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128zM416 32a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0 160c0 27.6-11.7 52.5-30.4 70.1C422.1 275.7 448 310.8 448 352c0 53-43 96-96 96l-192 0c-53 0-96-43-96-96s43-96 96-96l88.4 0c-15.2-17-24.4-39.4-24.4-64L96 192c-53 0-96 43-96 96L0 416c0 53 43 96 96 96l320 0c53 0 96-43 96-96l0-128c0-53-43-96-96-96zM160 288c-35.3 0-64 28.7-64 64s28.7 64 64 64l192 0c35.3 0 64-28.7 64-64s-28.7-64-64-64l-32 0-160 0z"/></svg>
+          <div class="d-md-none d-block position-relative">
+            <svg class="d-block" (click)="openNav()"  #barsId xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#371b7d" d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L96 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
+           
+            <div #sideNav class="side-nav p-2">
+                <svg #xmark id="xmark" (click)="closeNav()" class="position-absolute end-0 " xmlns="http://www.w3.org/2000/svg" height="20" width="15" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#d0111a" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+                    <!--Nav elements - accueil , calculatrice et ingrédients-->
+                <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link nav-hover">Accueil</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/calculateur" class="nav-link">Calculateur</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/recettes" class="nav-link">Mes recettes</a>
+                        </li>
+                
+                <!--Nav buttons - s'inscrire et se connecter-->
+                    <li class="btn-purple nav-item  px-3 py-2 rounded text-white fw-bold">
+                        <a href="/connexion" class="nav-link">connexion</a>
+                    </li>
+
+                    <li class="btn-purple nav-item  px-3 py-2 rounded text-white fw-bold">
+                        <a href="/inscription" class="nav-link">S'inscire</a>
+                    </li>
+                </ul>
+
+            </div>
+            
           </div>
         <!-- End Side navbar-->
 

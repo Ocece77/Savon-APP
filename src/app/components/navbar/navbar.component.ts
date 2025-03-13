@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component,ElementRef,ViewChild, Input, OnInit, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -7,20 +7,32 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   @Input() isOpen! : boolean ;
+  @Input() isOver! : boolean ;
+  barsId = viewChild<ElementRef<HTMLElement>>('barsId');
+  sideNav = viewChild<ElementRef<HTMLElement>>('sideNav');
+  xmark = viewChild<ElementRef<HTMLElement>>('xmark');
   ngOnInit(): void {
     this.isOpen = false; /*Etat de la navbar */
   }
   
-   handleNav = () => {
-    this.isOpen = !this.isOpen
-  }
-   
-  handleDesign = () => {
-    const bars = document.getElementById("bars-icon");
-    const savon = document.getElementById("savon-icon");
-    savon?.classList.remove("d-none")
-    bars?.classList.add("d-none")
-    console.log("donuts and cats")
-  }
+   openNav= () => {
+    this.isOpen = true
+    const sideNav = this.sideNav()!;
+    if (this.isOpen){
+      sideNav.nativeElement.classList.remove("d-none");
+      sideNav.nativeElement.classList.add("show-item");
+    } 
+  };
+  
+    closeNav = () => {
+      this.isOpen = false
+      const sideNav = this.sideNav()!;
+      if (!this.isOpen){
+        sideNav.nativeElement.classList.remove("show-item");
+        sideNav.nativeElement.classList.add("d-none");
+    }
+
+  };
+
 
 }

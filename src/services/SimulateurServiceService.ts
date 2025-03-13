@@ -7,5 +7,8 @@ export class SimulateurServiceService {
       constructor(private http:HttpClient) { }
       getAllRecette(): Observable<Recette[]> {
         return this.http.get<Recette[]>(`${this.apiURL}/recette`);
-      }}
+      }
+ 
+    }
+      
     
