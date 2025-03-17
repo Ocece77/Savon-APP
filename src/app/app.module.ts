@@ -10,6 +10,7 @@ import { CalculateurComponent } from './pages/calculateur/calculateur.component'
 import { LoginComponent } from './pages/login/login.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { FormsModule } from '@angular/forms';
+import { RadarChartComponent } from './pages/radar-chart/radar-chart.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     CalculateurComponent,
     LoginComponent,
     SigninComponent,
+    RadarChartComponent,
   
   ],
   imports: [

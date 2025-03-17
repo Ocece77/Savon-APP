@@ -35,9 +35,11 @@ export class IngredientService {
     /**
     * Met à jour d'un ingrédient dans l'API.
     * @returns Un Observable contenant l'ingrédient mise à jour
+    * @param data l'ingrédient modifier
     */
-    putIngredient(id: number, ingredient: Ingredient): Observable<Ingredient[]>{
-      return this.http.put<Ingredient[]>(`${this.apiURL}/ingredient/${id}`, ingredient );
+    putIngredient(id: number, data: object | Ingredient): Observable<Ingredient[]>{
+      console.log(`${this.apiURL}/ingredient/${id}`)
+      return this.http.put<Ingredient[]>(`${this.apiURL}/ingredient/${id}`, data );
     }
 
     /**
@@ -48,5 +50,8 @@ export class IngredientService {
       return this.http.delete<void>(`${this.apiURL}/ingredient/${id}`);
     }
 
+    deleteAllIngredient(): Observable<void>{
+      return this.http.delete<void>(`${this.apiURL}/ingredient/all`);
+    }
 
 }

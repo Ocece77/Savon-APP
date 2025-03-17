@@ -11,7 +11,6 @@ export class RecettesComponent implements OnInit{
   recettes: Recette[] = []; // Liste des ingrédients de l’API
   isLoading: boolean = true; // Flag marquant la récupération des données
   errorMessage: string = ""; // Eventuel message d'erreur
-
   constructor(private recetteService: RecetteService) {}
 
   ngOnInit(): void {
