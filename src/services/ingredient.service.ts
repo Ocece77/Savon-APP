@@ -43,13 +43,17 @@ export class IngredientService {
     }
 
     /**
-    * Suppression d'un ingrédient dans l'API avec son id
+    * Supprime un ingrédient de la base de données.   
+    *  Suppression d'un ingrédient dans l'API avec son id
     * @returns Un Observable contenant l'ingrédient mise à jour
     */
     deleteIngredient(id: number): Observable<void>{
       return this.http.delete<void>(`${this.apiURL}/ingredient/${id}`);
     }
 
+    /**
+    * Supprimer TOUS les ingrédients.
+    */
     deleteAllIngredient(): Observable<void>{
       return this.http.delete<void>(`${this.apiURL}/ingredient/all`);
     }
