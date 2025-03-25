@@ -90,6 +90,7 @@ export class RecettesComponent implements OnInit{
       this.recetteDTO.surgraissage = form.value["surgraissage"]
       this.recetteDTO.avecSoude = form.value["avecSoude"]
       this.recetteDTO.concentrationAlcalin = form.value["concentrationAlcalin"]
+      
       this.recetteService.addRecette(this.recetteDTO).subscribe({
       next: (data) => {
           console.log(data)

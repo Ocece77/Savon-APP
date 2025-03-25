@@ -1,27 +1,42 @@
-<div class="d-grid p-5">
-    <!--Left side-->
-    <div class="col-6 d-flex flex-column">
-       <h1 class="fw-bold">Calculateur de <br/> Saponification</h1>
-       <p></p>
-       <p style="width: fit-content; " class="btn-purple nav-item px-3 py-2 rounded text-white fw-bold ">
-          <a href="/calculateur" class="nav-link">Commencer à calculer</a>
-       </p>
+
+<div class="container">
+    <div class="row mt-5">
+            <!--Left side-->
+            <div class="col-sm d-flex flex-column">
+            <h1 class="fw-bold home-title">Calculateur de <br/> Saponification</h1>
+             <p class="font-monospace">Cet outil en ligne vous aide à calculer les quantités exactes d’huiles et de soude caustique pour des recettes équilibrées. Ajustez facilement vos formules, calculez le taux de soude et obtenez des savons parfaits à chaque fois. Simple, rapide et fiable !
+        </p>
+            <p style="width: fit-content; " class="btn-purple nav-item px-3 py-2 rounded text-white fw-bold ">
+                <a href="/calculateur" class="nav-link">Commencer à calculer</a>
+            </p>
+            </div>
+
+            <!--right side-->
+            <div class="container col-sm gap-2 ">
+                <div class="row h-25 mb-3">
+                <div class="col-6">
+                    <img src="{{urlImage[0]}}" class="w-100 object-fit-cover border rounded" alt="image">
+                </div>
+                <div class="col-6">
+                    <img src="{{urlImage[1]}}" class="w-100 h-50 object-fit-cover border rounded" alt="image">
+                </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm">
+                        <img src="{{urlImage[2]}}" class="w-100 object-fit-cover border rounded" alt="image">
+                    </div>
+                </div>
+            </div>
+        
     </div>
 
-<!--right side-->
-    <div class="col-6 container">
-        <div class="d-grid">
-            <div class="col-6 container">
-                <div class="row row-cols-1">
-                    <img [src]="urlImage[0]" alt="image">
-                </div>
-              </div>
-
-            <div>
-                
-            </div>
-         
-         
+    <div class=" px-5 text-center">
+        <p class="fs-1 fw-bold"> Qui nous sommes </p>
+        <div class="font-monospace">
+        <p>Collaboration entre Adepro et le Lycée Léonard de Vinci</p>
+        <p>Le Lycée Léonard de Vinci et Adepro ont lancé un partenariat pour rapprocher les étudiants des réalités professionnelles, en particulier dans l'industrie cosmétique. Adepro, expert en réglementation cosmétique, permet aux élèves de se former avec des outils et concepts pratiques. L'application développée facilite la gestion des projets, l'accès aux ressources pédagogiques et les échanges entre étudiants, enseignants et professionnels.</p>
+        <p> Elle vise principalement les étudiants des filières techniques et scientifiques, tout en étant utile aux enseignants et aux entreprises du secteur cosmétique.</p>
         </div>
 
     </div>

@@ -6,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
-  urlImage : String[] = ["savon-app/src/assets/savon.jpg",
-"savon-app/src/assets/savon2.jpg",
- "savon-app/src/assets/savon3.jpg",]
+  urlImage : String[] = ["/assets/savon.jpg",
+                          "/assets/savon2.jpg",
+                          "/assets/savon3.jpg"]
+
   ngOnInit(): void {
-    
   }
 }
