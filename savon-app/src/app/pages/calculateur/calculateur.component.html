@@ -1,0 +1,321 @@
+<div class="mt-6 grid w-100 position-relative">
+
+    <form #savonAjoutForm="ngForm" class="col-12 px-4 " (ngSubmit)="createIngredient(savonAjoutForm)" >
+        <div>
+            <h1 class="fw-bold">Ajouter un savon</h1>
+        </div>
+
+      
+        <!-- nom input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+        <label class="form-label" for="nom" >Nom de l'ingrédient</label>
+          <input type="text" name="nom" id="nom" class="form-control" maxlength="60" placeholder="Huile essentielle de Lavande" ngModel required/>
+        </div>
+
+        <!-- iode input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="iode" >Iode</label>
+          <input type="number" name="iode" id="iode" class="form-control" min="0" placeholder=0  ngModel required/>
+        </div>
+      
+        <!-- ins input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="ins">Ins</label>
+          <input type="number" name="ins" id="ins" class="form-control"min="0" placeholder=0  ngModel required/>
+        </div>
+
+         <!-- sapo input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="sapo">Sapo</label>
+          <input type="number" name="sapo" id="sapo" class="form-control"min="0" placeholder=0  ngModel required/>
+        </div>
+      
+
+         <!-- vol Mousse input -->
+         <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="volMousse">Vol Mousse</label>
+            <input type="number" name="valMousse" id="volMousse" class="form-control"min="0" placeholder=0 ngModel required/>
+          </div>
+
+         <!-- tenue Mousse input -->
+         <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="tenueMousse">Tenue Mousse</label>
+            <input type="number" name="tenueMousse" id="tenueMousse" class="form-control"min="0" placeholder=0 ngModel required/>
+          </div>
+        
+         <!-- tenue Mousse input -->
+         <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="douceur">Douceur</label>
+            <input type="number"  name="douceur" id="douceur" class="form-control"min="0" placeholder=0 ngModel required/>
+          </div>
+        
+         <!-- lavant input -->
+         <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="lavant">Lavant</label>
+            <input type="number" name="lavant" id="lavant" class="form-control"  min="0" placeholder=0 ngModel required/>
+          </div>
+
+         <!-- durete input -->
+         <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="durete">Durete</label>
+            <input type="number" name="durete" id="durete" class="form-control" min="0" placeholder=0  ngModel required/>
+          </div>
+          
+         <!-- solubilite input -->
+         <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="solubilite">Solubilite</label>
+            <input type="number" name="solubilite" id="solubilite" class="form-control" min="0" placeholder=0  ngModel required/>
+          </div>
+
+         <!-- sechage input -->
+         <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="sechage">Séchage</label>
+            <input type="number" name="sechage" id="sechage" class="form-control" min="0" placeholder=0 ngModel required/>
+          </div>
+          
+         <!-- estcorpsgras input -->
+         <div data-mdb-input-init class=" grid col-1 mb-4">
+            <label class="form-check-label" for="estcorpsgras">Est corps gras</label>
+            <input type="checkbox"  name="estcorpsgras" id="estcorpsgras"  ngModel required/>
+          </div>
+        <!-- Submit button -->
+        <button #creerSavonBtn type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-purple">Ajouter</button>
+        <div *ngIf="isNotCompleted" class="alert alert-danger mt-3 " role="alert">
+           Veuillez remplir tout les champs pour créer l'ingrédient
+        </div>
+        <div *ngIf="isCreated" class="alert alert-success mt-3 " role="alert">
+          <span class="fw-bold">{{nomIngredient}}</span> a été créer !
+       </div>
+    </form>
+    
+</div>
+
+
+
+<div class="container mt-4">
+    <h2>Liste des ingredients enregistrées</h2>
+          <!-- Button trigger modal -->
+            <button *ngIf="ingredients.length != 0" type="button" class="btn btn-danger fw-bold" data-bs-toggle="modal" data-bs-target="#myModal">
+              Supprimer tout les ingrédients
+            </button>
+          
+          <!--modal de supression -->
+          <div class="modal" id="myModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+          
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Supressions des ingrédients</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  Cette action est irréversible, êtes vous sûre de vouloir supprimer tous vos ingrédients
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                  <button (click)="deleteAllIngredient()" data-bs-dismiss="modal" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger fw-bold">Oui, supprimer !</button>
+                </div>
+          
+              </div>
+            </div>
+          </div>
+    
+     <!-- Message de suppresions de tous les ingrédients -->
+     <div *ngIf="isUpdated" class="alert alert-success mt-3" role="alert">
+      L'ingrédient <span class="fw-bold">{{seletedIngredient.nom}}</span> a bien été modifié
+    </div>
+  
+   <!-- Message de suppresions de tous les ingrédients -->
+   <div *ngIf="isDeleted" class="alert alert-success mt-3" role="alert">
+         Tous les ingrédients ont bien été supprimée
+   </div>
+
+    <!-- Message de chargement -->
+    <div *ngIf="isLoading" class="alert alert-info">
+      Chargement des ingredients...
+    </div>
+  
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Tableau des recettes -->
+    <table class="table table-bordered table-striped mt-3" *ngIf="!isLoading && ingredients.length > 0">
+      <thead class="table-dark">
+        <tr>
+          <th>Id</th>
+          <th>Nom</th>
+          <th>iode</th>
+          <th>ins</th>
+          <th>sapo</th>
+          <th>volMousse</th>
+          <th>tenueMousse</th>
+          <th>douceur</th>
+          <th>lavant</th>
+          <th>durete</th>
+          <th>solubilite</th>
+          <th>sechage</th>
+          <th>estCorpsGras</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ingredient of ingredients">
+          <td>{{ ingredient.id }}</td>
+          <td>{{ ingredient.nom }}</td>
+          <td>{{ ingredient.iode }}</td>
+          <td>{{ ingredient.ins }}</td>
+          <td>{{ ingredient.sapo }}</td>
+          <td>{{ ingredient.volMousse }}</td>
+          <td>{{ ingredient.tenueMousse }}</td>
+          <td>{{ ingredient.douceur }}</td>
+          <td>{{ ingredient.lavant }}</td>
+          <td>{{ ingredient.durete }}</td>
+          <td>{{ ingredient.solubilite }}</td>
+          <td>{{ ingredient.sechage }}</td>
+          <td>{{ ingredient.estCorpsGras ? "oui":"non"}}</td>
+          <td>
+            
+            <div class="flex gap-5">
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificationModal" (click)="setCurrentIngredient(ingredient.id!)">modifier</button>
+              <button type="button" class="btn btn-danger"  data-bs-toggle="modal"  data-bs-target="#deleteModal">supprimer</button>
+            </div>
+
+            <div class="modal fade" id="modificationModal" tabindex="-1" aria-labelledby="modificationModal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modificationModal">Modifier l'ingrédient</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+                  <div class="modal-body">
+
+                <form #savonModifForm="ngForm" class="px-4  w-100" (ngSubmit)="updateIngredient(savonModifForm)" >
+                      <div>
+                          <h2>Modifier <span class="fw-bold">{{ingredient.nom}}</span></h2>
+                      </div>
+              
+                    
+                      <!-- nom input -->
+                      <div data-mdb-input-init class="form-outline mb-4">
+                      <label class="form-label" for="nom" >Nom de l'ingrédient</label>
+                        <input type="text" name="nom" id="nom" class="form-control" maxlength="60" placeholder={{ingredient.nom}} ngModel required/>
+                      </div>
+              
+                      <!-- iode input -->
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="iode" >Iode</label>
+                        <input type="number" name="iode" id="iode" class="form-control" min="0" placeholder={{ingredient.iode}}  ngModel required/>
+                      </div>
+                    
+                      <!-- ins input -->
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="ins">Ins</label>
+                        <input type="number" name="ins" id="ins" class="form-control"min="0" placeholder={{ingredient.ins}} ngModel required/>
+                      </div>
+              
+                       <!-- sapo input -->
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="sapo">Sapo</label>
+                        <input type="number" name="sapo" id="sapo" class="form-control"min="0" placeholder={{ingredient.sapo}}  ngModel required/>
+                      </div>
+                    
+              
+                       <!-- vol Mousse input -->
+                       <div data-mdb-input-init class="form-outline mb-4">
+                          <label class="form-label" for="volMousse">Vol Mousse</label>
+                          <input type="number" name="volMousse" id="volMousse" class="form-control"min="0" placeholder={{ingredient.volMousse}} ngModel required/>
+                        </div>
+              
+                       <!-- tenue Mousse input -->
+                       <div data-mdb-input-init class="form-outline mb-4">
+                          <label class="form-label" for="tenueMousse">Tenue Mousse</label>
+                          <input type="number" name="tenueMousse" id="tenueMousse" class="form-control"min="0" placeholder={{ingredient.tenueMousse}} ngModel required/>
+                        </div>
+                      
+                       <!-- douceur Mousse input -->
+                       <div data-mdb-input-init class="form-outline mb-4">
+                          <label class="form-label" for="douceur">Douceur</label>
+                          <input type="number"  name="douceur" id="douceur" class="form-control"min="0" placeholder={{ingredient.douceur}} ngModel required/>
+                        </div>
+                      
+                       <!-- lavant input -->
+                       <div data-mdb-input-init class="form-outline mb-4">
+                          <label class="form-label" for="lavant">Lavant</label>
+                          <input type="number" name="lavant" id="lavant" class="form-control"  min="0" placeholder={{ingredient.lavant}} ngModel required/>
+                        </div>
+              
+                       <!-- durete input -->
+                       <div data-mdb-input-init class="form-outline mb-4">
+                          <label class="form-label" for="durete">Durete</label>
+                          <input type="number" name="durete" id="durete" class="form-control" min="0" placeholder={{ingredient.durete}} ngModel required/>
+                        </div>
+                        
+                       <!-- solubilite input -->
+                       <div data-mdb-input-init class="form-outline mb-4">
+                          <label class="form-label" for="solubilite">Solubilite</label>
+                          <input type="number" name="solubilite" id="solubilite" class="form-control" min="0" placeholder={{ingredient.solubilite}}  ngModel required/>
+                        </div>
+              
+                       <!-- sechage input -->
+                       <div data-mdb-input-init class="form-outline mb-4">
+                          <label class="form-label" for="sechage">Séchage</label>
+                          <input type="number" name="sechage" id="sechage" class="form-control" min="0" placeholder={{ingredient.sechage}} ngModel required/>
+                        </div>
+                        
+                       <!-- estcorpsgras input -->
+                       <div data-mdb-input-init class=" grid col-1 mb-4">
+                          <label class="form-check-label" for="estcorpsgras">Est corps gras</label>
+                          <input type="checkbox" checked={{ingredient.estCorpsGras}} name="estcorpsgras" id="estcorpsgras"  ngModel required/>
+                        </div>
+            
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">annuler</button>
+                    <button type="submit" class="btn btn-warning"  data-bs-dismiss="modal">Modifier</button>
+                  </div>
+                </form>
+
+                </div>
+              </div>
+            </div>
+            </div>
+
+                   <!--modal de supression -->
+          <div class="modal" id="deleteModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+          
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Supressions de <span class="fw-bold">{{ingredient.nom}}</span></h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  Cette action est irréversible, êtes vous sûre de vouloir supprimer <span class="fw-bold">{{ingredient.nom}}</span>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                  <button data-bs-dismiss="modal" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger fw-bold"  (click)="deleteIngredient(ingredient.id!)">Oui, supprimer !</button>
+                </div>
+          
+              </div>
+            </div>
+          </div>
+    
+
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Message si aucune recette n'est disponible -->
+    <div *ngIf="!isLoading && ingredients.length === 0" class="alert alert-warning">
+      Aucune recette enregistrée.
+    </div>
+
+  </div>
+  

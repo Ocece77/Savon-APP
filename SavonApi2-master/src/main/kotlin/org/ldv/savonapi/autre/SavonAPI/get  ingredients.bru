@@ -1,0 +1,28 @@
+meta {
+  name: get  ingredients
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://localhost:8080/api-savon/v1/ingredient
+  body: json
+  auth: none
+}
+
+body:json {
+   {
+      "nom": "Savon vert shrek",
+      "iode": 70,
+      "ins": 20,
+      "sapo": 14,
+      "volMousse": 10,
+      "douceur": 0,
+      "lavant": 2,
+      "durete": 2000,
+      "solubilite": 9,
+      "sechage": 10,
+     "estCorpsGras" : false
+   }
+      
+}

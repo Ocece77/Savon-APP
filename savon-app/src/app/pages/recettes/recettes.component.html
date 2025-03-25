@@ -1,0 +1,321 @@
+
+<div class="container">
+ <h1>Ajout d'une recette de savon</h1>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col fw-bold">Nom Ingredient</th>
+          <th scope="col fw-bold">Quantite Gramme</th>
+          <th scope="col fw-bold">Pourcentage</th>
+          <th scope="col fw-bold">Actions</th>
+        </tr>
+      </thead>
+         
+  
+      <tbody>
+        <tr *ngFor="let  ligne of recetteDTO.ligneIngredients">
+          <th scope="row">{{ligne.ingredient?.nom}}</th>
+
+          <th scope="row">
+          <input type="number" name="gramme" id="gramme" class="form-control" min="0" placeholder=0  ngModel required/>
+          </th>
+
+          <th scope="row">
+            <input type="number" name="pourcentage" id="pourcentage" class="form-control" min="0" placeholder=0  ngModel required/>
+          </th>
+
+          <button type="button" class="btn bg-danger text-light fw-bold mt-2" (click)="removeIngredient(ligne.ingredient?.id)">
+            supprimer
+           </button>
+        </tr>
+        
+      </tbody>
+     
+
+
+      <button type="button" class="btn btn-success my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <span class="fw-bold">+</span> Ingredient
+      </button>
+ 
+    </table>
+
+    <form #newRecette="ngForm" (ngSubmit)="createRecette(newRecette)" >
+  
+      <!-- Titre recette input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+      <label class="form-label" for="nom" >Titre : </label>
+        <input type="text" name="titre" id="titre" class="form-control" maxlength="60" placeholder="Recette bougie senteur pâte au saumon" ngModel required/>
+      </div>
+
+      <!-- Description input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <label class="form-label" for="iode" >Description :</label>
+        <input type="text" name="description" id="description" class="form-control" min="0" placeholder=0  ngModel required/>
+      </div>
+    
+      <!-- Surgraissage % input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <label class="form-label" for="ins">Surgraissage</label>
+        <input type="number" name="surgraissage" id="surgraissage" class="form-control"min="0" placeholder=0  ngModel required/>
+      </div>
+
+      <!-- estcorpsgras input -->
+      <div data-mdb-input-init class=" grid col-1 mb-4">
+        <label class="form-check-label" for="estcorpsgras">Avec Soude</label>
+        <input type="checkbox"  name="avecSoude" id="avecSoude"  ngModel required/>
+      </div>
+
+        <!-- Concentration Alcalin % input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <label class="form-label" for="ins">Concentration Alcalin </label>
+        <input type="number" name="concentrationAlcalin" id="concentrationAlcalin" class="form-control"min="0" placeholder=0  ngModel required/>
+      </div>
+
+
+      <!-- Submit button -->
+      <button #creerSavonBtn type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success"> + Ajouter</button>
+      
+      <div *ngIf="isNotCompleted" class="alert alert-danger mt-3 " role="alert">
+         Veuillez remplir tout les champs pour créer la recette
+      </div>
+
+      <div *ngIf="isCreated" class="alert alert-success mt-3 " role="alert">
+        <span class="fw-bold">{{nomRecette}}</span> a été créer !
+     </div>
+
+    </form>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+
+    <form #selectIngredient="ngForm" (ngSubmit)="ajoutLigne(selectIngredient)" class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ajout un ingrédient</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <select name="ingredient_selection" id="ingredient_selection" ngModel>
+          <option *ngFor="let ingredient of ingredients" value={{ingredient.id}}>{{ingredient.nom}}</option>
+        </select>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<div class="container mt-4">
+    <h2>Liste des recettes enregistrées</h2>
+
+              <!-- Button trigger modal -->
+              <button *ngIf="ingredients.length != 0" type="button" class="btn btn-danger fw-bold" data-bs-toggle="modal" data-bs-target="#myModal">
+                Supprimer toutes les recettes
+              </button>
+            
+            <!--modal de supression -->
+            <div class="modal" id="myModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+            
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Supressions des recettes</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    Cette action est irréversible, êtes vous sûre de vouloir supprimer tous vos recettes
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button (click)="deleteAllRecette()" data-bs-dismiss="modal" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger fw-bold">Oui, supprimer !</button>
+                  </div>
+            
+                </div>
+              </div>
+            </div>
+  
+    <!-- Message de chargement -->
+    <div *ngIf="isLoading" class="alert alert-info">
+      Chargement des recettes...
+    </div>
+  
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Tableau des recettes -->
+    <div class="container">
+      <div class="row">
+
+      </div>
+
+     </div>
+    <table class="table table-bordered table-striped mt-3" *ngIf="!isLoading && recettes.length > 0">
+      <div class="col">
+        <div *ngFor="let recette of recettes">
+
+          <div class="card" style="width: 18rem;" >
+              <img src="..." class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{ recette.id }}. {{ recette.titre }}</h5>
+      
+                <div>
+                  <p class="card-text">Description</p>
+                  <p>{{ recette.description }}</p>
+                </div>
+                
+                <div>
+                <p class="card-text">Surgraissage (%)</p>
+                <p>{{ recette.surgraissage }}</p>
+              </div>
+              
+                <div>
+                <p class="card-text">Apport Eau (g)</p>
+                <p>{{ recette.apportEnEau }}</p>
+              </div>
+              
+                <div>
+                <p class="card-text">Agent Alcalin</p>
+                <p>{{ recette.avecSoude ? 'Soude' : 'Potasse' }}</p>
+              </div>
+              
+                <div>
+                <p class="card-text">Qté alcalin</p>
+                <p>{{ recette.qteAlcalin }}</p>
+              </div>
+              
+                <div>
+                <p class="card-text">Ingredient</p>
+                <div *ngFor="let ingredient of recette.ligneIngredients">
+
+                </div>
+              </div>
+              
+              
+              <div class="flex gap-5 ">
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificationModal" (click)="setCurrentRecette(recette.id!)">modifier</button>
+                <button type="button" class="btn btn-danger"  data-bs-toggle="modal"  data-bs-target="#deleteModal">supprimer</button>
+              </div>
+
+      
+              </div>
+            </div>
+
+      
+                 <!--modal de modification -->
+          <div class="modal fade" id="modificationModal" tabindex="-1" aria-labelledby="modificationModal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="modificationModal">Modifier l'ingrédient</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+              <form #savonModifForm="ngForm" class="px-4 w-100" (ngSubmit)="updateRecette(savonModifForm)" >
+                    <div>
+                        <h2>Modifier <span class="fw-bold">{{recette.titre}}</span></h2>
+                    </div>
+            
+                  
+                    <!-- titre input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="titre" >Nom de l'ingrédient</label>
+                      <input type="text" name="titre" id="titre" class="form-control" maxlength="60"   placeholder={{recette.titre}} ngModel required/>
+                    </div>
+            
+
+                    <!-- surgraissage input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <label class="form-label" for="surgraissage">surgraissage</label>
+                      <input type="number" name="surgraissage" id="surgraissage" class="form-control" min="0" placeholder={{recette.surgraissage}} ngModel required/>
+                    </div>
+            
+                     <!-- sapo input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <label class="form-label" for="apportEnEau">apportEnEau</label>
+                      <input type="number" name="apportEnEau" id="apportEnEau" class="form-control" min="0" placeholder={{recette.apportEnEau}}  ngModel required/>
+                    </div>
+                  
+            
+                     <!-- vol Mousse input -->
+                     <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="qteAlcalin">qteAlcalin</label>
+                        <input type="number" name="qteAlcalin" id="qteAlcalin" class="form-control" min="0" placeholder={{recette.qteAlcalin}} ngModel required/>
+                      </div>
+
+                     <!-- estcorpsgras input -->
+                     <div data-mdb-input-init class="grid col-1 mb-4">
+                        <label class="form-check-label" for="avecSoude">avec Soude</label>
+                        <input type="checkbox" checked={{recette.avecSoude}} name="avecSoude" id="avecSoude"  ngModel required/>
+                      </div>
+          
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">annuler</button>
+                  <button type="submit" class="btn btn-warning"  data-bs-dismiss="modal">Modifier</button>
+                </div>
+              </form>
+
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <!--modal de supression -->
+            <div class="modal" id="deleteModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+            
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Supressions de <span class="fw-bold">{{recette.titre}}</span></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    Cette action est irréversible, êtes vous sûre de vouloir supprimer <span class="fw-bold">{{recette.titre}}</span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button data-bs-dismiss="modal" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger fw-bold"  (click)="deleteRecette(recette.id!)">Oui, supprimer !</button>
+                  </div>
+            
+                </div>
+              </div>
+            </div>
+
+          
+            
+          <div>
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  
+    <!-- Message si aucune recette n'est disponible -->
+    <div *ngIf="!isLoading && recettes.length === 0" class="alert alert-warning">
+      Aucune recette enregistrée.
+    </div>
+</div>
+  
