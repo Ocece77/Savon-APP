@@ -26,32 +26,52 @@ export class RecettesComponent implements OnInit{
   currIngredient : Ingredient|null = null;
   selectedRecette : any = {}
   isDeleted : boolean = false
+  currPourcentage: number = 100
 
   constructor(private recetteService: RecetteService ,private ingredientService: IngredientService) {}
 
-  ngOnInit(): void {
-    this.fetchIngredients();
-    this.fetchRecettes();
-  }
-
-  setCurrentRecette(id : number):void{
-    if (!id){
-      return
+    ngOnInit(): void {
+      this.fetchIngredients();
+      this.fetchRecettes();
     }
-    this.selectedRecette = this.recettes.filter((rec) => rec.id == id)[0]
-  }
 
-  removeIngredient(id: number | null | undefined):void{
-    this.recetteDTO.ligneIngredients = this.recetteDTO.ligneIngredients.filter((rec) => rec.ingredient?.id != id)
-    console.log(this.recetteDTO.ligneIngredients)
-    console.log( id)
-  }
+    calculPourcentage(ligne: LigneIngredient[]){
+      return this.currPourcentage / ligne.length
+    }
+
+    setCurrentRecette(id : number):void{
+      if (!id){
+        return
+      }
+      this.selectedRecette = this.recettes.filter((rec) => rec.id == id)[0]
+      console.log( this.selectedRecette)
+    }
+
+    removeIngredient(id: number | null | undefined):void{
+      this.recetteDTO.ligneIngredients = this.recetteDTO.ligneIngredients.filter((rec) => rec.ingredient?.id != id)
+      console.log(this.recetteDTO.ligneIngredients)
+      console.log(id)
+    }
 
 
-  fetchIngredients():void{
-    this.ingredientService.getAllIngredients().subscribe({
+    fetchIngredients():void{
+      this.ingredientService.getAllIngredients().subscribe({
+        next: (data) => {
+        this.ingredients = data;
+        this.isLoading = false;
+        },
+            error: (error) => {
+            this.errorMessage = "Erreur lors du chargement des ingrédients.";
+            console.error("Erreur API:", error);
+            this.isLoading = false;
+        }
+        });
+    }
+
+    fetchRecettes(): void {
+      this.recetteService.getAllRecettes().subscribe({
       next: (data) => {
-      this.ingredients = data;
+      this.recettes = data;
       this.isLoading = false;
       },
           error: (error) => {
@@ -60,21 +80,7 @@ export class RecettesComponent implements OnInit{
           this.isLoading = false;
       }
       });
-  }
-
-  fetchRecettes(): void {
-    this.recetteService.getAllRecettes().subscribe({
-    next: (data) => {
-    this.recettes = data;
-    this.isLoading = false;
-    },
-        error: (error) => {
-        this.errorMessage = "Erreur lors du chargement des ingrédients.";
-        console.error("Erreur API:", error);
-        this.isLoading = false;
     }
-    });
-   }
 
     ajoutLigne(form : NgForm) : void {
       const value = form.value["ingredient_selection"];
@@ -98,13 +104,13 @@ export class RecettesComponent implements OnInit{
       this.isNotCompleted = false;
       this.isCreated = true
       this.nomRecette = form.value["titre"]
+      this.currPourcentage = 100
       this.fetchRecettes()
       form.reset()
       setTimeout(()=>{
         this.isCreated = false;
       }, 5000)
     }
-
 
     updateRecette(form : NgForm):void{
       if (form.value == this.selectedRecette){
@@ -133,6 +139,7 @@ export class RecettesComponent implements OnInit{
     }
   
     deleteRecette(id : number):void{
+      alert(id)
       this.recetteService.deleteRecette(id).subscribe({next:(res)=>{
         console.log(res , id);
         this.fetchRecettes()
@@ -147,5 +154,11 @@ export class RecettesComponent implements OnInit{
           this.isDeleted = false;
         }, 5000)
       }})
+    }
+
+
+    sortIngredient(ingredients : LigneIngredient[]):LigneIngredient[] {
+       let listeIngredients = ingredients.sort((a, b) => a.quantite - b.quantite);
+       return listeIngredients;
     }
 }
